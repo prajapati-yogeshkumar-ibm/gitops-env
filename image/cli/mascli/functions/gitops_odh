@@ -265,6 +265,7 @@ function gitops_odh() {
   sm_login
 
   # Set up secret key and fetch secret
+  export SECRET_ACCOUNT_PATH="${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}"
   export MAS_CONFIG_DIR="$TEMP_DIR"
   export ODH_SECRET="${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio"
   export ODH_SECRET_FILE="$TEMP_DIR/odh-secret.json"
@@ -365,6 +366,6 @@ function gitops_odh() {
     remove_git_repo_clone "${GITOPS_WORKING_DIR}/${GITHUB_REPO}"
   fi
 
-  #rm -rf "$TEMP_DIR"
+  rm -rf "$TEMP_DIR"
   echo_h2 "ODH GitOps completed."
 }
