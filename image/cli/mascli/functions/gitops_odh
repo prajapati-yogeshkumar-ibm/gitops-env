@@ -281,7 +281,9 @@ function gitops_odh() {
    export MARIA_SECRET_FILE="$TEMP_DIR/mariadb-secret.json"
    sm_get_secret_file "$MARIA_SECRET" "$MARIA_SECRET_FILE"
   ######################################################################
-
+   #######################Checking condition Storage_provider###############################################
+   #mas_aibroker_storage_provider
+  ######################################################################
   # Reuse existing secret values if present
   TEMP_MINIO_ACCESS_KEY=$(jq -r .sm_minio_accesskey "$ODH_SECRET_FILE")
   if [[ -n ${TEMP_MINIO_ACCESS_KEY} ]]; then
