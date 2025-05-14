@@ -40,7 +40,7 @@ ibm_aibroker:
 #DRO
   drocfg_ca: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/dro#drocfg_ca>"
   drocfg_registration_key: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/dro#drocfg_registration_key>"
-  drocfg_url: "fyre-sre-dev/sremat-test/dro#drocfg_url"
+  drocfg_url: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/dro#drocfg_url>"
 
 #JDBC Secret
   jdbccfg_username: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/jdbc#jdbccfg_username>"
