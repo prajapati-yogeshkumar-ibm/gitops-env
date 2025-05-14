@@ -19,8 +19,8 @@ ibm_aibroker:
   mas_aibroker_storage_secretkey: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/minio#sm_minio_secretkey>"
   mas_aibroker_storage_pipelines_bucket: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/minio#sm_minio_bucket_default>"
   mas_aibroker_storage_ssl: "true" 
-  mas_aibroker_storage_tenants_bucket: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret/fyre-sre-dev/sremat-test/minio#sm_minio_bucket_templates#sm_minio_bucket_tenants"
-  mas_aibroker_storage_templates_bucket: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret/fyre-sre-dev/sremat-test/minio#sm_minio_bucket_tenants#sm_minio_bucket_templates"
+  mas_aibroker_storage_tenants_bucket: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret/fyre-sre-dev/sremat-test/minio#sm_minio_bucket_templates>"
+  mas_aibroker_storage_templates_bucket: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret/fyre-sre-dev/sremat-test/minio#sm_minio_bucket_tenants>"
 
 #Database
   mas_aibroker_db_host: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_host>"
