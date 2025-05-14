@@ -8,7 +8,7 @@ ibm_aibroker:
   mas_aibroker_watsonx_secret: "sremat-watsonxcfg"
   pull_secret_name: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/ibm_entitlement#entitlement_key"
 
-
+/Users/prajapatiyogeshkumatr/ARGO_REPO/Argo_odh11/cli/image/cli/mascli/templates/gitops/appset-configs/cluster/instance/ibm-aibroker.yaml.j2
 #storage
   mas_aibroker_storage_provider: "minio"
   mas_aibroker_minio_secret: "minio-secret"
