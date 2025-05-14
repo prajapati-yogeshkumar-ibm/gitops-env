@@ -274,11 +274,13 @@ function gitops_aibroker() {
   set -o pipefail
   trap 'echo "[ERROR] Error occurred at $BASH_SOURCE, line $LINENO, exited with $?"; exit 1' ERR
 
-  rm -rf $GITOPS_WORKING_DIR
-  mkdir -p ${GITOPS_WORKING_DIR}
-  GITOPS_CLUSTER_DIR=${GITOPS_WORKING_DIR}/${GITHUB_REPO}/${CLUSTER_ID}
-  TEMP_DIR=$GITOPS_CLUSTER_DIR/tmp-aibroker
-  mkdir -p ${TEMP_DIR}
+    # Prepare directories
+  rm -rf "$GITOPS_WORKING_DIR"
+  mkdir -p "${GITOPS_WORKING_DIR}"
+  #GITOPS_CLUSTER_DIR="${GITOPS_WORKING_DIR}/${GITHUB_REPO}/${CLUSTER_ID}"
+  GITOPS_CLUSTER_DIR=${GITOPS_WORKING_DIR}/${GITHUB_REPO}/${ACCOUNT_ID}/${CLUSTER_ID}/${MAS_INSTANCE_ID}
+  
+
   echo
   reset_colors
   echo_h2 "Review Settings"
@@ -327,8 +329,33 @@ function gitops_aibroker() {
 
   AVP_TYPE=aws  # Support for IBM will be added later
   sm_login
-  # update those varialbe which are necessory to be updated into aws , 
+  export SECRET_ACCOUNT_PATH="${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}"
+    # aibroker
+  export IBM_ENTITLEMENT_KEY=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}ibm_entitlement#entitlement_key
 
+  # dro
+  export DROCFG_URL=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}dro#drocfg_url
+  export DROCFG_CA=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}dro#drocfg_ca
+  export DROCFG_REGISTRATION_KEY=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}dro#drocfg_registration_key
+
+  # sls
+  export SLSCFG_REGISTRATION_KEY=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}sls#slscfg_registration_key
+  export SLSCFG_CA=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}sls#slscfg_ca
+  export SLSCFG_TLS=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}sls#slscfg_tls
+  export SLSCFG_KEY=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}sls#slscfg_key
+
+  # minio
+  export MAS_AIBROKER_STORAGE_HOST=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_host
+  export MAS_AIBROKER_STORAGE_PORT=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_port
+  export MAS_AIBROKER_STORAGE_ACCESSKEY=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_accesskey
+  export MAS_AIBROKER_STORAGE_SECRETKEY=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_secretkey
+  export MAS_AIBROKER_STORAGE_PIPELINES_BUCKET=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_bucket_default
+  #export MAS_AIBROKER_STORAGE_TENANTS_BUCKET=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio# sm_minio_bucket_tenants
+  #export MAS_AIBROKER_STORAGE_TEMPLATES_BUCKET=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio# sm_minio_bucket_templates
+  # update those varialbe which are necessory to be updated into aws , 
+  if [ -z $GIT_SSH ]; then
+    export GIT_SSH=false
+  fi
   # pull_secret_name
   export image_pull_secret_b64=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}ibm_entitlement#image_pull_secret_b64
   # mas_aibroker_storage_accesskey
@@ -340,9 +367,9 @@ function gitops_aibroker() {
   # mas_aibroker_storage_port
   export SM_MINIO_PORT=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_port
   # mas_aibroker_storage_templates_bucket
-  export SM_MINIO_BUCKET_TEMPLATES=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_bucket_templates
+  export MAS_AIBROKER_STORAGE_TENANTS_BUCKET=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_bucket_templates
   # mas_aibroker_storage_tenants_bucket
-  export SM_MINIO_BUCKET_TENANTS=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_bucket_tenants
+  export MAS_AIBROKER_STORAGE_TEMPLATES_BUCKET=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_bucket_tenants
   # mas_aibroker_storage_pipelines_bucket
   export SM_MINIO_BUCKET_PIPELINES=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio#sm_minio_bucket_pipelines
   export MAS_AIBROKER_DB_HOST=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}mariadb#sm_mariadb_host
@@ -363,55 +390,50 @@ function gitops_aibroker() {
   export MAS_ENTITLEMENT_KEY=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}ibm_entitlement#entitlement_key
   export ARTIFACTORY_TOKEN=${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}ibm_entitlement#aibroker_image_pull_secret_b64
 
-  # check if those are already present 
-  # and update them 
 
-  # finally get values into tempalte 
-  # push them on github repo , 
+  sm_verify_secret_exists ${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}ibm_entitlement "image_pull_secret_b64"
+  sm_verify_secret_exists ${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}minio "sm_minio_bucket_templates,sm_minio_bucket_tenants,sm_minio_bucket_pipelines,sm_minio_bucket_default"
+  sm_verify_secret_exists ${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}mariadb "sm_mariadb_host,sm_mariadb_database"
+  sm_verify_secret_exists ${ACCOUNT_ID}${SECRETS_KEY_SEPERATOR}${CLUSTER_ID}${SECRETS_KEY_SEPERATOR}dro "drocfg_ca,drocfg_registration_key,drocfg_url"
+  
+  
+  
+  # Clone github target repo
+  # ---------------------------------------------------------------------------
+  if [ "$GITHUB_PUSH" == "true" ]; then
+    echo "GITOPS_WORKING_DIR  ${GITOPS_WORKING_DIR}"
+    echo "GITOPS_CLUSTER_DIR  ${GITOPS_CLUSTER_DIR}"
+    echo_h2 "Cloning GitHub repo $GITHUB_ORG $GITHUB_REPO"
+    clone_target_git_repo $GITHUB_HOST $GITHUB_ORG $GITHUB_REPO $GIT_BRANCH $GITOPS_WORKING_DIR $GIT_SSH
+  fi
 
-  # final output 
-  # updated var in sm 
-  # and git repo 
+  mkdir -p ${GITOPS_CLUSTER_DIR}
+  # Render YAML
+  echo_h2 "Generating OpenDataHub GitOps YAML"
+  echo "${GITOPS_CLUSTER_DIR}"
+  echo "Output: ${GITOPS_CLUSTER_DIR}/ibm-aibroker.yaml"
 
+  jinjanate_commmon $CLI_DIR/templates/gitops/appset-configs/cluster/instance/ibm-aibroker.yaml.j2 ${GITOPS_CLUSTER_DIR}/ibm-aibroker.yaml
 
-  # sm_update_secret and need to pss secrert | idempotent
-  # sm_update_secret $SECRET_NAME_MINIO_AUTH "{\"info\": \"$ESCAPED_INFO\", \"username\": \"$SECRET_KEY_MINIO_USER\", \"password\": \"$SECRET_KEY_MINIO_PASSWORD\"}" "${TAGS}"fi
+  # Collect info block for secret update
+  # yq eval '.' "${GITOPS_CLUSTER_DIR}/ibm-aibroker.yaml" > "${GITOPS_CLUSTER_DIR}/aibroker-info.yaml"
+  # UNESCAPED_INFO="$(cat ${GITOPS_CLUSTER_DIR}/aibroker-info.yaml)"
+  ESCAPED_INFO="${UNESCAPED_INFO//\"/\\\"}"
 
+  TAGS="[{\"Key\": \"source\", \"Value\": \"gitops_aibroker\"}, {\"Key\": \"account\", \"Value\": \"${ACCOUNT_ID}\"}, {\"Key\": \"cluster\", \"Value\": \"${CLUSTER_ID}\"}]"
 
-    if [ -z $GIT_SSH ]; then
-      export GIT_SSH=false
-    fi
+  # sm_update_secret "$ODH_SECRET" \
+  #   "{\"minio_access_key\": \"${MINIO_ACCESS_KEY}\", \"minio_secret_key\": \"${MINIO_SECRET_KEY}\", \"mariadb_user\": \"${MARIADB_USER}\"}" \
+  #   "$TAGS"
+  #rm -rf "$TEMP_DIR"
+  # GitHub push
+  if [[ "$GITHUB_PUSH" == "true" ]]; then
+    echo_h2 "Pushing changes to GitHub"
+    echo "Github push" "$GITHUB_HOST" "$GITHUB_ORG" "$GITHUB_REPO" "$GIT_BRANCH" "Working: " "${GITOPS_WORKING_DIR}/${GITHUB_REPO}" " Commit :" "$GIT_COMMIT_MSG"
+    save_to_target_git_repo "$GITHUB_HOST" "$GITHUB_ORG" "$GITHUB_REPO" "$GIT_BRANCH" "${GITOPS_WORKING_DIR}/${GITHUB_REPO}" "$GIT_COMMIT_MSG"
+    remove_git_repo_clone "${GITOPS_WORKING_DIR}/${GITHUB_REPO}"
+  fi
 
-    # Clone github target repo
-    # ---------------------------------------------------------------------------
-    if [ "$GITHUB_PUSH" == "true" ]; then
-      echo
-      echo_h2 "Cloning GitHub repo $GITHUB_ORG $GITHUB_REPO"
-      clone_target_git_repo $GITHUB_HOST $GITHUB_ORG $GITHUB_REPO $GIT_BRANCH $GITOPS_WORKING_DIR $GIT_SSH
-    fi
-    mkdir -p ${GITOPS_CLUSTER_DIR}
-
-    # Generate ArgoApps
-    # ---------------------------------------------------------------------------
-    echo
-    echo_h2 "Generating aibroker operator Applications"
-    echo "- minio operator"
-
-    echo "Generating aibroker file ${GITOPS_CLUSTER_DIR}/ibm-aibroker.yaml"
-    jinjanate_commmon $CLI_DIR/templates/gitops/appset-configs/cluster/instance/ibm-aibroker.yaml.j2 ${GITOPS_CLUSTER_DIR}/ibm-aibroker.yaml
-
-    # Commit and push to github target repo
-    # ---------------------------------------------------------------------------
-    if [ "$GITHUB_PUSH" == "true" ]; then
-      echo
-      echo_h2 "Commit and push changes to GitHub repo $GITHUB_ORG $GITHUB_REPO"
-      save_to_target_git_repo $GITHUB_HOST $GITHUB_ORG $GITHUB_REPO $GIT_BRANCH "${GITOPS_WORKING_DIR}/${GITHUB_REPO}" "${GIT_COMMIT_MSG}"
-      remove_git_repo_clone $GITOPS_WORKING_DIR/$GITHUB_REPO
-    fi
-
-    rm -rf $TEMP_DIR
-    rm -rf $GITOPS_WORKING_DIR
-
-   
-  exit 0
+  rm -rf "$TEMP_DIR"
+  echo_h2 "AIBROKER GitOps completed."
 }
