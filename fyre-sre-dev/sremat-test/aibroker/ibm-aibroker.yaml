@@ -43,16 +43,16 @@ ibm_aibroker:
   drocfg_url: "fyre-sre-dev/sremat-test/dro#drocfg_url"
 
 #JDBC Secret
-  jdbccfg_username: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_username"
-  jdbccfg_password: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_password"
-  jdbccfg_url: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_url"
-  jdbccfg_sslenabled: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_sslenabled"
-  jdbccfg_ca: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+  jdbccfg_username: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/jdbc#jdbccfg_username>"
+  jdbccfg_password: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/jdbc#jdbccfg_password>"
+  jdbccfg_url: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/jdbc#jdbccfg_url>"
+  jdbccfg_sslenabled: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/jdbc#jdbccfg_sslenabled>"
+  jdbccfg_ca: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/jdbc#jdbccfg_ca>"
 
 # Development Registry Entitlement
-  mas_entitlement_key: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+  mas_entitlement_key: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/ibm_entitlement#entitlement_key>"
   artifactory_username: "pmqcloud@us.ibm.com"
-  artifactory_token: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+  artifactory_token: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/ibm_entitlement#aibroker_image_pull_secret_b64>"
 
  # Environment Variable:
   mas_app_channel: "workspace"
