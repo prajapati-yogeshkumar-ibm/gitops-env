@@ -1,0 +1,65 @@
+---
+merge-key: "fyre-sre-dev/sremat-test/aibroker"
+
+ibm_aibroker:
+  mas_instance_id: "aibroker"
+  aibroker_namespace: "mas-sremat-aibroker"
+
+  mas_aibroker_watsonx_secret: "sremat-watsonxcfg"
+  pull_secret_name: ""
+
+#storage
+  mas_aibroker_storage_provider: "minio"
+  mas_aibroker_minio_secret: "minio-secret"
+  mas_aibroker_storage_accesskey: ""
+  mas_aibroker_storage_secretkey: ""
+  mas_aibroker_storage_host: ""
+  mas_aibroker_storage_port: ""
+  mas_aibroker_storage_ssl: "true"
+  mas_aibroker_storage_region: ""
+  mas_aibroker_storage_pipelines_bucket: ""
+  mas_aibroker_storage_tenants_bucket: ""
+  mas_aibroker_storage_templates_bucket: ""
+
+#Database
+  mas_aibroker_db_host: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_host"
+  mas_aibroker_mariadb_secret: "sremat-mariadbcfge"
+  mas_aibroker_db_port: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_port"
+  mas_aibroker_db_user: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_user"
+  mas_aibroker_db_database: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_database"
+  mas_aibroker_db_secret_name: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_secret_name"
+  mas_aibroker_db_secret_value: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_secret_value"
+
+#Default Storage
+  primary_storage_class: "nfs-client"
+
+#SLS Registration
+  slscfg_registration_key: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+
+#DRO
+  drocfg_ca: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+  drocfg_registration_key: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+  drocfg_url: "fyre-sre-dev/sremat-test/dro#drocfg_url"
+
+#JDBC Secret
+  jdbccfg_username: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_username"
+  jdbccfg_password: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_password"
+  jdbccfg_url: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_url"
+  jdbccfg_sslenabled: "fyre-sre-dev/sremat-test/jdbc#jdbccfg_sslenabled"
+  jdbccfg_ca: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+
+# Development Registry Entitlement
+  mas_entitlement_key: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+  artifactory_username: "pmqcloud@us.ibm.com"
+  artifactory_token: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:>"
+
+ # Environment Variable:
+  mas_app_channel: "workspace"
+  mas_catalog_source: "ibm-operator-catalog"
+  
+ # Source container registry
+  mas_icr_cp: "docker-na-public.artifactory.swg-devops.com/wiotp-docker-local"
+  mas_icr_cpopen: "docker-na-public.artifactory.swg-devops.com/wiotp-docker-local/cpopen"
+
+  cluster_domain: "sremat-test.cp.fyre.ibm.com"
+  in_saas_env: "false"
