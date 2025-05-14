@@ -23,13 +23,13 @@ ibm_aibroker:
   mas_aibroker_storage_templates_bucket: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret/fyre-sre-dev/sremat-test/minio##sm_minio_bucket_templates"
 
 #Database
-  mas_aibroker_db_host: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_host"
-  mas_aibroker_mariadb_secret: "sremat-mariadbcfge"
-  mas_aibroker_db_port: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_port"
-  mas_aibroker_db_user: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_user"
-  mas_aibroker_db_database: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_database"
-  mas_aibroker_db_secret_name: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_secret_name"
-  mas_aibroker_db_secret_value: "fyre-sre-dev/sremat-test/mariadb#sm_mariadb_secret_value"
+  mas_aibroker_db_host: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_host>"
+  mas_aibroker_mariadb_secret: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_port"
+  mas_aibroker_db_port: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_port"
+  mas_aibroker_db_user: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_user"
+  mas_aibroker_db_database: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_database"
+  mas_aibroker_db_secret_name: "<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_secret_name"
+  mas_aibroker_db_secret_value: ""<path:arn:aws:secretsmanager:us-east-2:435377327995:secret:fyre-sre-dev/sremat-test/mariadb#sm_mariadb_secret_value"
 
 #Default Storage
   primary_storage_class: "nfs-client"
