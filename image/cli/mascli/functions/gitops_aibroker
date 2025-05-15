@@ -291,6 +291,22 @@ function gitops_aibroker() {
   echo_reset_dim "Cluster ID ............................ ${COLOR_MAGENTA}${CLUSTER_ID}"
   reset_colors
 
+  echo "${TEXT_DIM}"
+  if [[ "$GITHUB_PUSH" == "true" ]]; then
+    echo_h2 "GitOps Target" "    "
+    echo_reset_dim "Automatic Push ........................ ${COLOR_GREEN}Enabled"
+    echo_reset_dim "Working Directory ..................... ${COLOR_MAGENTA}${GITOPS_WORKING_DIR}"
+    echo_reset_dim "Host .................................. ${COLOR_MAGENTA}${GITHUB_HOST}"
+    echo_reset_dim "Organization .......................... ${COLOR_MAGENTA}${GITHUB_ORG}"
+    echo_reset_dim "Repository ............................ ${COLOR_MAGENTA}${GITHUB_REPO}"
+    echo_reset_dim "Branch ................................ ${COLOR_MAGENTA}${GIT_BRANCH}"
+  else
+    echo_h2 "GitOps Target" "    "
+    echo_reset_dim "Automatic Push ........................ ${COLOR_RED}Disabled"
+    echo_reset_dim "Working Directory ..................... ${COLOR_MAGENTA}${GITOPS_WORKING_DIR}"
+  fi
+  reset_colors
+
 # echo all the variables ofgitops+envs
   echo_reset_dim "MAS Instance ID ....................... ${COLOR_MAGENTA}${MAS_INSTANCE_ID}"
   echo_reset_dim "AI Broker Namespace ................... ${COLOR_MAGENTA}${AIBROKER_NAMESPACE}"
