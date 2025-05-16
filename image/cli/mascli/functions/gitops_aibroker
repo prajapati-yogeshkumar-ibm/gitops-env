@@ -124,6 +124,24 @@ function gitops_aibroker_noninteractive() {
       -c|--cluster-id)
         export CLUSTER_ID=$1 && shift
         ;;
+      -i|--mas-instance-id)
+        export MAS_INSTANCE_ID=$1 && shift
+        ;;
+      # AWS Secrets Manager Configuration
+      --sm-aws-secret-region)
+        export SM_AWS_REGION=$1
+        shift
+        ;;
+      --sm-aws-access-key)
+        export SM_AWS_ACCESS_KEY_ID=$1 && shift
+        ;;
+      --sm-aws-secret-key)
+        export SM_AWS_SECRET_ACCESS_KEY=$1 && shift
+        ;;
+      --secrets-path)
+        export SECRETS_PATH=$1 && shift
+        ;;
+      #AIBROKER Parameters
       --mas-icr-cp)
         export MAS_ICR_CP=$1 && shift
         ;;
@@ -188,7 +206,6 @@ function gitops_aibroker_noninteractive() {
       -P|--github-push)
         export GITHUB_PUSH=true
         ;;
-
       -H|--github-host)
         export GITHUB_HOST=$1 && shift
         ;;
@@ -218,18 +235,17 @@ function gitops_aibroker_noninteractive() {
       esac
   done
 
-
+  [[ -z "$GITOPS_WORKING_DIR" ]] && gitops_aibroker_help "GITOPS_WORKING_DIR is not set"
   [[ -z "$CLUSTER_ID" ]] && gitops_aibroker_help "CLUSTER_ID is not set"
-  #[[ -z "$INSTANCE_ID" ]] && gitops_aibroker_help "INSTANCE_ID is not set"
   [[ -z "$ACCOUNT_ID" ]] && gitops_aibroker_help "ACCOUNT_ID is not set"
-  [[ -z "$ACCOUNT_ID" ]] && gitops_aibroker_help "ACCOUNT_ID is not set"
-  #[[ -z "$MAS_INSTANCE_ID" ]] && gitops_aibroker_help "MAS_INSTANCE_ID is not set"
+  [[ -z "$MAS_INSTANCE_ID" ]] && gitops_aibroker_help "MAS_INSTANCE_ID is not set"
 
    if [[ "$GITHUB_PUSH" == "true" ]]; then
-    [[ -z "$GITHUB_HOST" ]] && gitops_aibroker_help "GITHUB_HOST is not set"
-    [[ -z "$GITHUB_ORG" ]] && gitops_aibroker_help "GITHUB_ORG is not set"
-    [[ -z "$GITHUB_REPO" ]] && gitops_aibroker_help "GITHUB_REPO is not set"
-    [[ -z "$GIT_BRANCH" ]] && gitops_aibroker_help "GIT_BRANCH is not set"
+      [[ -z "$GITHUB_HOST" ]] && gitops_aibroker_help "GITHUB_HOST is not set"
+      [[ -z "$GITHUB_ORG" ]] && gitops_aibroker_help "GITHUB_ORG is not set"
+      [[ -z "$GITHUB_REPO" ]] && gitops_aibroker_help "GITHUB_REPO is not set"
+      [[ -z "$GIT_BRANCH" ]] && gitops_aibroker_help "GIT_BRANCH is not set"
+   fi 
     [[ -z "$PRIMARY_STORAGE_CLASS" ]] && gitops_aibroker_help "PRIMARY_STORAGE_CLASS is not set"
     [[ -z "$MAS_ICR_CP" ]] && gitops_aibroker_help "MAS_ICR_CP is not set"
     [[ -z "$MAS_ICR_CPOPEN" ]] && gitops_aibroker_help "MAS_ICR_CPOPEN is not set"
@@ -252,7 +268,7 @@ function gitops_aibroker_noninteractive() {
     [[ -z "$IN_SAAS_ENV" ]] && gitops_aibroker_help "IN_SAAS_ENV is not set"
     [[ -z "$MAS_AIBROKER_MARIADB_SECRET" ]] && gitops_aibroker_help "MAS_AIBROKER_MARIADB_SECRET is not set"
 
-  fi
+  
 
 # add validation below like above  for those variable which have the value needed for further execution
 
