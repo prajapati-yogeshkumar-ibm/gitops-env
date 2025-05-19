@@ -142,7 +142,7 @@ spec:
     - name: configs
 
   tasks:
-    # 1.gitops-minio
+    # 1.gitops-minio  Condition MINIO/S3
     # -------------------------------------------------------------------------
     - name: gitops-minio
       taskRef:
@@ -342,3 +342,89 @@ spec:
           value: $(params.cluster_domain)
         - name: in_saas_env
           value: $(params.in_saas_env)
+
+    # 3.gitops-Kmodel
+    # -------------------------------------------------------------------------
+    - name: gitops-kmodel
+      taskRef:
+        name: gitops-kmodel
+      runAfter:
+        - gitops-aibroker
+      workspaces:
+        - name: configs
+          workspace: configs
+      params:
+        - name: cluster_name
+          value: $(params.cluster_name)
+        - name: account
+          value: $(params.account)
+        - name: cluster_id
+          value: $(params.cluster_id)
+        - name: cluster_url
+          value: $(params.cluster_url)
+        - name: secrets_path
+          value: $(params.secrets_path)
+        - name: avp_aws_secret_region
+          value: $(params.avp_aws_secret_region)
+        - name: git_branch
+          value: $(params.git_branch)
+        - name: github_org
+          value: $(params.github_org)
+        - name: github_repo
+          value: $(params.github_repo)
+        - name: github_host
+          value: $(params.github_host)
+        - name: mas_instance_id
+          value: $(params.mas_instance_id)
+        - name: aibroker_internal_tls
+          value: $(params.aibroker_internal_tls)
+        - name: aibroker_namespace
+          value: $(params.aibroker_namespace)
+        - name: pull_secret_name
+          value: $(params.pull_secret_name)
+        - name: mas_aibroker_storage_provider
+          value: $(params.mas_aibroker_storage_provider)
+        - name: mas_aibroker_storage_ssl
+          value: $(params.mas_aibroker_storage_ssl)
+        - name: mas_aibroker_storage_accesskey
+          value: $(params.mas_aibroker_storage_accesskey)
+        - name: mas_aibroker_storage_secretkey
+          value: $(params.mas_aibroker_storage_secretkey)
+        - name: mas_aibroker_storage_host
+          value: $(params.mas_aibroker_storage_host)
+        - name: mas_aibroker_storage_port
+          value: $(params.mas_aibroker_storage_port)
+        - name: mas_aibroker_storage_region
+          value: $(params.mas_aibroker_storage_region)
+        - name: mas_aibroker_storage_templates_bucket
+          value: $(params.mas_aibroker_storage_templates_bucket)
+        - name: mas_aibroker_storage_tenants_bucket
+          value: $(params.mas_aibroker_storage_tenants_bucket)
+        - name: mas_aibroker_storage_pipelines_bucket
+          value: $(params.mas_aibroker_storage_pipelines_bucket)
+        - name: ssh_secret_name
+          value: $(params.ssh_secret_name)
+        - name: docker_server
+          value: $(params.docker_server)
+        - name: tenantNamespace
+          value: $(params.tenantNamespace)
+        - name: mas_aibroker_provision_tenant
+          value: $(params.mas_aibroker_provision_tenant)
+        - name: primary_storage_class
+          value: $(params.primary_storage_class)
+        - name: image_store
+          value: $(params.image_store)
+        - name: image_watcher
+          value: $(params.image_watcher)
+        - name: image_controller
+          value: $(params.image_controller)
+        - name: mas_aibroker_pipeline_steps_tag
+          value: $(params.mas_aibroker_pipeline_steps_tag)
+        - name: mas_aibroker_connector_tag
+          value: $(params.mas_aibroker_connector_tag)
+        - name: mas_aibroker_saas
+          value: $(params.mas_aibroker_saas)
+        - name: model_id_unique_length
+          value: $(params.model_id_unique_length)
+        - name: model_id_prefix
+          value: $(params.model_id_prefix)
